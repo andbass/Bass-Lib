@@ -1,0 +1,28 @@
+
+TESTS := $(shell find ./tests -name *.${EXT})
+
+TEST_OBJS := $(TESTS:./tests/%.${EXT}=obj/tests/%.o)
+TEST_DEPS := $(TEST_OBJS:.o=.d)
+TEST_LIB := build/libtest.so
+TEST_SYMS := build/test-syms
+
+CFLAGS += $(TEST_FLAGS) -I build/ -g
+
+obj/tests/%.o : tests/%.${EXT}
+	@mkdir -p $(@D) # $(@D) <- Gets directory part of target path
+	@$(CC) $< -o $@ $(CFLAGS)  -c -MMD -MP
+
+$(TEST_LIB) : $(TEST_OBJS)
+	@gcc $(CFLAGS) -shared -o $@ $(TEST_OBJS) -L ./ -l$(OUTPUT)
+
+test : $(OUTPUT) $(TEST_LIB) $(TEST_SYMS)
+	@python3 build/test-runner.py 
+
+test-clean :
+	-@rm $(TEST_LIB)
+	-@rm $(TEST_SYMS)
+
+$(TEST_SYMS) : $(TEST_LIB)
+	@nm -fposix $(TEST_LIB) > $(TEST_SYMS)
+
+-include $(TEST_DEPS)
