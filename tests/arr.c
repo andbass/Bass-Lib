@@ -6,12 +6,16 @@
 
 #include "bass/arr.h"
 
+#include <stdio.h>
+#include <time.h>
+
 TEST(array_init) {
     BArr arr = MAKE_ARR(char*);
     (void)arr;
 
     EQ(1, 1, "1 is not equal to 1, isnt possible");
 
+    BArr_clean(&arr);
     PASS;
 }
 
@@ -25,6 +29,7 @@ TEST(array_push) {
 
     EQ(arr.len, 1, "Array length unchanged");
 
+    BArr_clean(&arr);
     PASS;
 }
 
@@ -43,6 +48,7 @@ TEST(array_index) {
     NOT_NULL(stored_str, "String not transferred into array");
     STR_EQ(*stored_str, str, "Stored string is not equal to original string");
     
+    BArr_clean(&arr);
     PASS;
 }
 
@@ -58,6 +64,7 @@ TEST(array_clear) {
     EQ(arr.len, 0, "Array's length not reset");
     EQ(arr.cap, 128, "Array's capacity not reset");
 
+    BArr_clean(&arr);
     PASS;
 }
 
@@ -73,11 +80,11 @@ TEST(array_remove) {
 
     EQ(*num, 6, "Array element 5 not properly removed");
 
+    BArr_clean(&arr);
     PASS;
 }
 
 // Macro heavy tests
-
 TEST(array_iterate) {
     BArr arr = MAKE_ARR(int);
 
@@ -85,10 +92,27 @@ TEST(array_iterate) {
         BArr_push(&arr, &i);
     }
 
-    FOR_EACH_ARR(i, int, elem, arr) {
+    FOR_EACH_ARR (i, int*, elem, arr) {
         EQ(i, *elem, "Array contents are not being properly iterated over");
     }
 
+    BArr_clean(&arr);
+    PASS;
+}
+
+TEST(array_iterate2) {
+    BArr arr = MAKE_ARR(int);
+
+    for (int i = 0; i < 10; i++) {
+        BArr_push(&arr, &i);
+    }
+
+    for (int i = 0; i < arr.len; i++) {
+        int* elem = BArr_get(&arr, i);
+        EQ(i, *elem, "Array contents not stored properly");
+    }
+
+    BArr_clean(&arr);
     PASS;
 }
 
@@ -101,6 +125,7 @@ TEST(array_push2) {
     STR_EQ(*(char**)BArr_get(&arr, 0), "Hello", "Item not properly stored");
     STR_EQ(*(char**)BArr_get(&arr, 1), "World", "Item not properly stored");
 
+    BArr_clean(&arr);
     PASS;
 }
 

@@ -4,8 +4,9 @@ TYPE := static-lib
 LIBS :=
 FLAGS := -g -Wall -Werror -fPIC
 
-INCLUDE_DIR:= -I deps/*/include -I include
-LIB_DIR:= -L deps/*/lib
+DEPS := $(wildcard deps/*)
+INCLUDE_DIR := $($(wildcard deps/*/include):%=-I %) -I $(CURDIR)/include
+LIB_DIR := -L $(wildcard deps/*)
 
 ifeq "$(LANG)" "C++"
 	EXT:=cpp
@@ -29,12 +30,15 @@ CFLAGS:= -std=$(STD) $(FLAGS) $(INCLUDE_DIR)
 SHELL := /bin/bash
 INSTALL_DIR := /usr/local/bin
 
-build : $(OUTPUT) remove_unused_objects
+build : dependencies $(OUTPUT) remove_unused_objects
 
 rebuild : clean build
 
 run : build
 	@./$(OUTPUT)
+
+dependencies :
+	@$(foreach makefile,$(DEPS),$(MAKE) -s -C $(DEPS))
 
 install : build
 	@install ./$(OUTPUT) $(INSTALL_DIR)
@@ -81,9 +85,9 @@ debug :
 	@echo Binary Name: $(OUTPUT)
 	@echo Source Files: $(SRC)
 	@echo Object Files: $(OBJ)
-	@echo Dependencies: $(DEP)
-	@echo All files in Object folder: $(FILES_IN_OBJ)
 	@echo
+	@echo Dependency Directories: $(LIB_DIR)
+	@echo Dependency Include Directories: $(INCLUDE_DIR)
 
 include TestMakefile
 

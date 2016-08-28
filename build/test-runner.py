@@ -1,8 +1,11 @@
 
 from ctypes import CDLL
+from fnmatch import fnmatch
 
 import sys
 import fileinput
+import time
+import datetime as dt
 
 class colors:
     BOLD = '\033[1m'
@@ -14,6 +17,10 @@ class colors:
 
 bar = "-----"
 
+test_filter = "*"
+if len(sys.argv) > 1:
+    test_filter = sys.argv[1]
+
 test_lib = CDLL("build/libtest.so")
 
 test_syms = []
@@ -22,7 +29,7 @@ with open("build/test-syms") as syms:
         spaced = line.split(" ")
         symbol = spaced[0]
 
-        if symbol.startswith("test_"):
+        if symbol.startswith("test_") and fnmatch(symbol[5:], test_filter):
             test_syms.append(symbol)
 
 passed = 0
@@ -33,17 +40,36 @@ failed_tests = []
 for i, sym in enumerate(test_syms):
     test_name = sym.replace("test_", "")
 
-    print(("Running " + colors.BOLD + colors.YELLOW + test_name + colors.END).ljust(40, " ") + str(i + 1) + "/" + str(len(test_syms)), end="\t")
+    running_text = ("Running " + colors.BOLD + colors.YELLOW + test_name + colors.END).ljust(40, " ")
+    completion_ratio = str(i + 1) + "/" + str(len(test_syms))
+
+    print(running_text + completion_ratio, end="\t")
     sys.stdout.flush()
 
-    ret = test_lib[sym]()
+    func = test_lib[sym]
+
+    start_time = time.time()
+    ret = func()
+    end_time = time.time()
 
     if ret == 0:
         failed += 1
         failed_tests.append(test_name)
     elif ret == 1:
         passed += 1
-        print()
+
+        time_elapsed = end_time - start_time
+        time_factor = 1
+        time_unit = "s"
+
+        if time_elapsed < 1e-4:
+            time_factor = 1e6
+            time_unit = "\u00b5s"
+        elif time_elapsed < 1e-2:
+            time_factor = 1e3
+            time_unit = "ms"
+
+        print(colors.GREEN + str(round(time_elapsed * time_factor, 3)).rjust(10) + " " + time_unit + colors.END)
     else:
         print("INVALID RETURN CODE FROM TEST: " + sym)
         break

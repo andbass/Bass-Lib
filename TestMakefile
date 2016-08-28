@@ -12,11 +12,14 @@ obj/tests/%.o : tests/%.${EXT}
 	@mkdir -p $(@D) # $(@D) <- Gets directory part of target path
 	@$(CC) $< -o $@ $(CFLAGS)  -c -MMD -MP
 
-$(TEST_LIB) : $(TEST_OBJS)
+$(TEST_LIB) : $(OUTPUT) $(TEST_OBJS)
 	@gcc $(CFLAGS) -shared -o $@ $(TEST_OBJS) -L ./ -l$(OUTPUT)
 
 test : $(OUTPUT) $(TEST_LIB) $(TEST_SYMS)
-	@python3 build/test-runner.py 
+	@python3 build/test-runner.py $(target)
+
+test-debug : $(OUTPUT) $(TEST_LIB) $(TEST_SYMS)
+	@gdb -tui -iex "b test_$(target)" --args python3 build/test-runner.py $(target)
 
 test-clean :
 	-@rm $(TEST_LIB)

@@ -39,7 +39,7 @@ size_t BArr_used_size(BArr*);
 
 #define FOR_EACH_ARR(index, type, elem, arr) \
     i32 index = -1; \
-    type* elem = NULL; \
+    type elem = NULL; \
     while ((++index, elem = BArr_get(&(arr), index)) != NULL)
 
 // For pushing on literal values (also supports named variables
