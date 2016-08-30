@@ -62,6 +62,14 @@ TEST(str_eq) {
     PASS;
 }
 
+TEST(str_ceq) {
+    autodel(BStr) str1 = BStr_new("this is a long string you boofy");
+    char* str2 = "this is a long string you boofy";
+
+    EQ(BStr_ceq(str1, str2), true, "Strings are not equal");
+    PASS;
+}
+
 TEST(str_sub) {
     autodel(BStr) str = BStr_new("Andrew the Bass Master");
     autodel(BStr) slice = BStr_sub(str, 11, 15);

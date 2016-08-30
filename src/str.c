@@ -122,6 +122,7 @@ bool BStr_eq(BStr str1, BStr str2) {
 // TODO remove code duplication
 bool BStr_ceq(BStr str1, char* str2) {
     u64 len = BStr_len(str1);
+
     if (len != strlen(str2)) {
         return false;
     }
