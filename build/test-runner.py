@@ -40,10 +40,10 @@ failed_tests = []
 for i, sym in enumerate(test_syms):
     test_name = sym.replace("test_", "")
 
-    running_text = ("Running " + colors.BOLD + colors.YELLOW + test_name + colors.END).ljust(40, " ")
-    completion_ratio = str(i + 1) + "/" + str(len(test_syms))
+    running_text = ("Running " + colors.BOLD + colors.YELLOW + test_name + colors.END).ljust(40)
+    completion_ratio = (str(i + 1) + "/" + str(len(test_syms))).ljust(13)
 
-    print(running_text + completion_ratio, end="\t")
+    print((running_text + completion_ratio), end="")
     sys.stdout.flush()
 
     func = test_lib[sym]
@@ -69,7 +69,7 @@ for i, sym in enumerate(test_syms):
             time_factor = 1e3
             time_unit = "ms"
 
-        print(colors.GREEN + str(round(time_elapsed * time_factor, 3)).rjust(10) + " " + time_unit + colors.END)
+        print(colors.GREEN + str(round(time_elapsed * time_factor, 3)) + " " + time_unit + colors.END)
     else:
         print("INVALID RETURN CODE FROM TEST: " + sym)
         break

@@ -79,13 +79,15 @@ void BMap_put(BMap* map, char* key, void* value) {
         return;
     }
 
-    while (strcmp(pair->key, key) != 0) {
-        pair = pair->next;
+    BMapPair** cur_pair = &pair;
+    while (strcmp((*cur_pair)->key, key) != 0) {
+        cur_pair = &pair->next;
 
-        if (pair == NULL) {
-            pair = malloc(map->pair_size);
-            pair->next = NULL;
+        if (*cur_pair == NULL) {
+            *cur_pair = malloc(map->pair_size);
+            (*cur_pair)->next = NULL;
 
+            pair = *cur_pair;
             break;
         }
     }
@@ -105,18 +107,13 @@ void* BMap_get(BMap* map, char* key) {
 }
 
 void BMap_iter(BMap* map, BMapIter func) {
-    BMapIterCode code;
-
     for (int i = 0; i < map->total_pairs; i++) {
         BMapPair* pair = BMap_get_index(map, i);
-        if (pair->key != NULL) {
+        BMapIterCode code = Continue;
+
+        while (pair != NULL && pair->key != NULL && code == Continue) {
             code = func(pair->key, pair->value);
-
-            while (code != Exit && pair->next != NULL) {
-                pair = pair->next;
-                func(pair->key, pair->value);
-            }
-
+            pair = pair->next;
         }
     }
 }

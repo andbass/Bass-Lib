@@ -21,6 +21,9 @@ test : $(OUTPUT) $(TEST_LIB) $(TEST_SYMS)
 test-debug : $(OUTPUT) $(TEST_LIB) $(TEST_SYMS)
 	@gdb -tui -iex "b test_$(target)" --args python3 build/test-runner.py $(target)
 
+test-conque : $(OUTPUT) $(TEST_LIB) $(TEST_SYMS)
+	vim -c "ConqueGDB --args python3 build/test-runner.py $(target)"
+
 test-clean :
 	-@rm $(TEST_LIB)
 	-@rm $(TEST_SYMS)
