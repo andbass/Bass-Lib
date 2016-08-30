@@ -36,8 +36,14 @@ BStr BStr_new(char* src) {
 }
 
 void BStr_clean(BStr* str) {
+    if (str == NULL) {
+        return;
+    }
+
     BStrInternal* str_int = BStr_internal(*str);
     free(str_int);
+
+    *str = NULL;
 }
 
 u64 BStr_len(BStr str) {

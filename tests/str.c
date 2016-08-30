@@ -54,6 +54,14 @@ TEST(str_cconcat) {
     PASS;
 }
 
+TEST(str_eq) {
+    autodel(BStr) str1 = BStr_new("this is a long string you boofy");
+    autodel(BStr) str2 = BStr_new("this is a long string you boofy");
+
+    EQ(BStr_eq(str1, str2), true, "Strings are not equal");
+    PASS;
+}
+
 TEST(str_sub) {
     autodel(BStr) str = BStr_new("Andrew the Bass Master");
     autodel(BStr) slice = BStr_sub(str, 11, 15);
