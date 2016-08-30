@@ -17,7 +17,6 @@ static void BMap_clean_pair(BMapPair* pair) {
     }
 }
 
-
 static void* BMap_search_pair(BMapPair* pair, char* key) {
     if (strcmp(key, pair->key) == 0) {
         return pair->value;

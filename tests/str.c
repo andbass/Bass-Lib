@@ -129,3 +129,10 @@ TEST(str_shrink) {
     PASS;
 }
 
+TEST(str_clean_null) {
+    autodel(BStr) str = BStr_empty();
+    autodel(BStr) slice = BStr_sub(str, 1000, 0);
+
+    PASS; // if we don't segfault, we're fine
+}
+

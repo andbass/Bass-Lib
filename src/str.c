@@ -36,7 +36,7 @@ BStr BStr_new(char* src) {
 }
 
 void BStr_clean(BStr* str) {
-    if (str == NULL) {
+    if (*str == NULL) {
         return;
     }
 
