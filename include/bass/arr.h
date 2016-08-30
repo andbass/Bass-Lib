@@ -23,8 +23,8 @@ void BArr_clean(BArr*);
 void BArr_push(BArr*, void* data);
 void BArr_pop(BArr*, void* dest);
 
-void* BArr_get(BArr*, i64 index);
-void BArr_remove(BArr*, i64 index);
+void* BArr_get(BArr*, u64 index);
+void BArr_remove(BArr*, u64 index);
 
 void BArr_clear(BArr*);
 

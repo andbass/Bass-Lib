@@ -12,7 +12,7 @@ static void BArr_resize(BArr* arr) {
     arr->cap = new_cap;
 }
 
-static i64 BArr_offset(BArr* arr, i64 index) {
+static i64 BArr_offset(BArr* arr, u64 index) {
     return index * arr->elem_size;
 }
 
@@ -45,7 +45,7 @@ void BArr_push(BArr* arr, void* data) {
     arr->len++;
 }
 
-void* BArr_get(BArr* arr, i64 index) {
+void* BArr_get(BArr* arr, u64 index) {
     if (index >= arr->len) {
         return NULL;
     }
@@ -54,7 +54,7 @@ void* BArr_get(BArr* arr, i64 index) {
     return &arr->buf[offset];
 }
 
-void BArr_remove(BArr* arr, i64 index) {
+void BArr_remove(BArr* arr, u64 index) {
     assert(index < arr->len);
     i64 next_index = index + 1;
 
