@@ -13,8 +13,8 @@ typedef struct {
     u8* buf;
     size_t elem_size;
 
-    i64 len;
-    i64 cap;
+    u64 len;
+    u64 cap;
 } BArr;
 
 void BArr_init(BArr*, size_t elem_size);
