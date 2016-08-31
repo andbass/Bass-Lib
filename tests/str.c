@@ -80,6 +80,16 @@ TEST(str_sub) {
     PASS;
 }
 
+TEST(str_sub_neg) {
+    autodel(BStr) str = BStr_new("Andrew the Bass Master");
+    autodel(BStr) slice = BStr_sub(str, 16, -1);
+
+    NOT_NULL(slice, "Slice is NULL, we goofed");
+    STR_EQ(slice, "Master", "Slice is not right");
+
+    PASS;
+}
+
 TEST(str_sub_end) {
     autodel(BStr) str = BStr_new("xXx the master of it allllll");
     autodel(BStr) slice = BStr_sub_end(str, 21);

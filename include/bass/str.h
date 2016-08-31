@@ -36,8 +36,8 @@ bool BStr_eq(BStr, BStr);
 bool BStr_ceq(BStr, char*);
 
 // Substring
-BStr BStr_sub(BStr, u64 start, u64 end);
-BStr BStr_sub_end(BStr, u64 start); // Substrings to end of string
+BStr BStr_sub(BStr, i64 start, i64 end);
+BStr BStr_sub_end(BStr, i64 start); // Substrings to end of string
 
 void BStr_push(BStr*, char);
 void BStr_push_str(BStr*, BStr);

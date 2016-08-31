@@ -136,9 +136,13 @@ bool BStr_ceq(BStr str1, char* str2) {
     return true;
 }
 
-BStr BStr_sub(BStr str, u64 start, u64 end) {
-    if (start >= BStr_len(str) || end > BStr_len(str)) {
+BStr BStr_sub(BStr str, i64 start, i64 end) {
+    if (start >= BStr_len(str) || end > (i64)BStr_len(str)) {
         return NULL;
+    }
+
+    if (end < 0) {
+        end = (i64)BStr_len(str) + end + 1;
     }
 
     u64 len = end - start;
@@ -152,7 +156,7 @@ BStr BStr_sub(BStr str, u64 start, u64 end) {
     return slice;
 }
 
-BStr BStr_sub_end(BStr str, u64 start) {
+BStr BStr_sub_end(BStr str, i64 start) {
     return BStr_sub(str, start, BStr_len(str));
 }
 
