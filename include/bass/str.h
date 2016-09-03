@@ -51,4 +51,3 @@ BStrInternal* BStr_internal(BStr);
 
 // Ensures "str" fits "size", which may return a new string if reallocation occurs
 BStrInternal* BStr_fit_size(BStr str, u64 size);
-

@@ -6,8 +6,11 @@
 
 TEST(str_basic) {
     autodel(BStr) str = BStr_empty();
-    
+    BStrInternal* str_int = BStr_internal(str);
+
+    EQ(str_int->len, 0, "String has a length.  how??");
     STR_EQ(str, "", "Not empty string.  what the butt");
+
     PASS;
 }
 
@@ -153,4 +156,15 @@ TEST(str_clean_null) {
 
     PASS; // if we don't segfault, we're fine
 }
+
+TEST(str_iterate) {
+    autodel(BStr) str = BStr_new("123456789");
+
+    for (u64 i = 0; i < BStr_len(str); i++) {
+        EQ(i + 1, str[i] - '0', "Iteration failed");
+    }
+
+    PASS;
+}
+
 
