@@ -11,6 +11,7 @@
 
 BStrInternal* BStr_fit_size(BStr str, u64 size) {
     BStrInternal* str_int = BStr_internal(str);
+
     if ((size + 1) > str_int->cap) { // Add one for the null term
         u64 new_cap = (size + 1) * 2;
 

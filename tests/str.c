@@ -5,7 +5,7 @@
 #include "bass/str.h"
 
 TEST(str_basic) {
-    autodel(BStr) str = BStr_empty();
+    AUTODEL(BStr) str = BStr_empty();
     BStrInternal* str_int = BStr_internal(str);
 
     EQ(str_int->len, 0, "String has a length.  how??");
@@ -15,7 +15,7 @@ TEST(str_basic) {
 }
 
 TEST(str_from_cstr) {
-    autodel(BStr) str = BStr_new("Andrew Bass");
+    AUTODEL(BStr) str = BStr_new("Andrew Bass");
 
     STR_EQ(str, "Andrew Bass", "String not properly created");
     PASS;
@@ -23,25 +23,25 @@ TEST(str_from_cstr) {
 
 TEST(str_format) {
     int pots = 42;
-    autodel(BStr) str = BStr_format("I have %d potatos", pots);
+    AUTODEL(BStr) str = BStr_format("I have %d potatos", pots);
 
     STR_EQ(str, "I have 42 potatos", "Formatted string incorrect");
     PASS;
 }
 
 TEST(str_dup) {
-    autodel(BStr) original = BStr_new("String is string is string is string");
-    autodel(BStr) duped = BStr_new(original);
+    AUTODEL(BStr) original = BStr_new("String is string is string is string");
+    AUTODEL(BStr) duped = BStr_new(original);
 
     STR_EQ(original, duped, "String not duped right");
     PASS;
 }
 
 TEST(str_concat) {
-    autodel(BStr) str1 = BStr_new("Bobby");
-    autodel(BStr) str2 = BStr_new(" Hill");
+    AUTODEL(BStr) str1 = BStr_new("Bobby");
+    AUTODEL(BStr) str2 = BStr_new(" Hill");
 
-    autodel(BStr) result = BStr_concat(str1, str2);
+    AUTODEL(BStr) result = BStr_concat(str1, str2);
 
     STR_EQ(str1, "Bobby", "Concat param mutated");
     STR_EQ(str2, " Hill", "Concat param mutated");
@@ -51,22 +51,22 @@ TEST(str_concat) {
 }
 
 TEST(str_cconcat) {
-    autodel(BStr) str = BStr_cconcat("Bobby", " Hill");
+    AUTODEL(BStr) str = BStr_cconcat("Bobby", " Hill");
 
     STR_EQ(str, "Bobby Hill", "String concat not worky dorky");
     PASS;
 }
 
 TEST(str_eq) {
-    autodel(BStr) str1 = BStr_new("this is a long string you boofy");
-    autodel(BStr) str2 = BStr_new("this is a long string you boofy");
+    AUTODEL(BStr) str1 = BStr_new("this is a long string you boofy");
+    AUTODEL(BStr) str2 = BStr_new("this is a long string you boofy");
 
     EQ(BStr_eq(str1, str2), true, "Strings are not equal");
     PASS;
 }
 
 TEST(str_ceq) {
-    autodel(BStr) str1 = BStr_new("this is a long string you boofy");
+    AUTODEL(BStr) str1 = BStr_new("this is a long string you boofy");
     char* str2 = "this is a long string you boofy";
 
     EQ(BStr_ceq(str1, str2), true, "Strings are not equal");
@@ -74,8 +74,8 @@ TEST(str_ceq) {
 }
 
 TEST(str_sub) {
-    autodel(BStr) str = BStr_new("Andrew the Bass Master");
-    autodel(BStr) slice = BStr_sub(str, 11, 15);
+    AUTODEL(BStr) str = BStr_new("Andrew the Bass Master");
+    AUTODEL(BStr) slice = BStr_sub(str, 11, 15);
 
     NOT_NULL(slice, "Slice is NULL, we goofed");
     STR_EQ(slice, "Bass", "Slice is not right");
@@ -84,8 +84,8 @@ TEST(str_sub) {
 }
 
 TEST(str_sub_neg) {
-    autodel(BStr) str = BStr_new("Andrew the Bass Master");
-    autodel(BStr) slice = BStr_sub(str, 16, -1);
+    AUTODEL(BStr) str = BStr_new("Andrew the Bass Master");
+    AUTODEL(BStr) slice = BStr_sub(str, 16, -1);
 
     NOT_NULL(slice, "Slice is NULL, we goofed");
     STR_EQ(slice, "Master", "Slice is not right");
@@ -94,8 +94,8 @@ TEST(str_sub_neg) {
 }
 
 TEST(str_sub_end) {
-    autodel(BStr) str = BStr_new("xXx the master of it allllll");
-    autodel(BStr) slice = BStr_sub_end(str, 21);
+    AUTODEL(BStr) str = BStr_new("xXx the master of it allllll");
+    AUTODEL(BStr) slice = BStr_sub_end(str, 21);
 
     NOT_NULL(slice, "Slice is NULL, nononon");
     STR_EQ(slice, "allllll", "Slice is not right");
@@ -104,7 +104,7 @@ TEST(str_sub_end) {
 }
 
 TEST(str_push) {
-    autodel(BStr) str = BStr_new("abcd");
+    AUTODEL(BStr) str = BStr_new("abcd");
 
     BStr_push(&str, 'e');
     BStr_push(&str, 'f');
@@ -116,8 +116,8 @@ TEST(str_push) {
 }
 
 TEST(str_push_str) {
-    autodel(BStr) to = BStr_new("Andrew");
-    autodel(BStr) from = BStr_new(" Bass");
+    AUTODEL(BStr) to = BStr_new("Andrew");
+    AUTODEL(BStr) from = BStr_new(" Bass");
 
     BStr_push_str(&to, from);
 
@@ -126,7 +126,7 @@ TEST(str_push_str) {
 }
 
 TEST(str_push_cstr) {
-    autodel(BStr) base = BStr_new("xXx");
+    AUTODEL(BStr) base = BStr_new("xXx");
 
     for (int i = 0; i < 4; i++) {
         BStr_push_cstr(&base, "xXx");
@@ -137,7 +137,7 @@ TEST(str_push_cstr) {
 }
 
 TEST(str_shrink) {
-    autodel(BStr) str = BStr_empty();
+    AUTODEL(BStr) str = BStr_empty();
 
     for (int i = 0; i < 65; i++) {
         BStr_push(&str, 'a');
@@ -151,14 +151,14 @@ TEST(str_shrink) {
 }
 
 TEST(str_clean_null) {
-    autodel(BStr) str = BStr_empty();
-    autodel(BStr) slice = BStr_sub(str, 1000, 0);
+    AUTODEL(BStr) str = BStr_empty();
+    AUTODEL(BStr) slice = BStr_sub(str, 1000, 0);
 
     PASS; // if we don't segfault, we're fine
 }
 
 TEST(str_iterate) {
-    autodel(BStr) str = BStr_new("123456789");
+    AUTODEL(BStr) str = BStr_new("123456789");
 
     for (u64 i = 0; i < BStr_len(str); i++) {
         EQ(i + 1, str[i] - '0', "Iteration failed");

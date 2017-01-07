@@ -4,6 +4,7 @@
  * It lacks type safety (but works with any type of data structure), so be careful
  */
 
+#include "bass/base.h"
 #include "bass/types.h"
 
 #include <stdio.h>
@@ -31,11 +32,7 @@ void BArr_clear(BArr*);
 size_t BArr_used_size(BArr*);
 
 // Utility macros
-#define MAKE_ARR(type) ({ \
-    BArr tmp; \
-    BArr_init(&tmp, sizeof(type)); \
-    tmp; \
-})
+#define MAKE_ARR(type) MAKE(BArr, sizeof(type))
 
 #define FOR_EACH_ARR(index, type, elem, arr) \
     i32 index = -1; \

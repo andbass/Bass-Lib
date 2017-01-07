@@ -43,9 +43,4 @@ BMapPair* BMap_get_index(BMap* map, u64 index);
 u64 hash_fnv1a(char* str);
 
 // Utility macros
-#define MAKE_MAP(type, size) ({ \
-    BMap tmp; \
-    BMap_init(&tmp, sizeof(type), (size)); \
-    tmp; \
-})
-
+#define MAKE_MAP(type, size) MAKE(BMap, sizeof(type), (size))

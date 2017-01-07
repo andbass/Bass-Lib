@@ -64,7 +64,7 @@ for i, sym in enumerate(test_syms):
 
         if time_elapsed < 1e-4:
             time_factor = 1e6
-            time_unit = "\u00b5s"
+            time_unit = "us"
         elif time_elapsed < 1e-2:
             time_factor = 1e3
             time_unit = "ms"

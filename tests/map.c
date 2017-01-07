@@ -37,16 +37,15 @@ TEST(map_iterate) {
 
     BMap_put(&map, "x", (int[]) { 1 });
     BMap_put(&map, "data", (int[]) { 10 });
-    BMap_put(&map, "LONG ASS STRING WITH SPACES", (int[]) { 128 });
-    BMap_put(&map, "xXx_los_cummies_xXx", (int[]) { 42 });
+    BMap_put(&map, "LONG STRING WITH SPACES", (int[]) { 128 });
+    BMap_put(&map, "xXx_los_angelos_xXx", (int[]) { 42 });
 
     int count = 0;
-    BMapIterCode callback(char* key, void* value) {
+    BMap_iter(&map, LAMBDA(BMapIterCode, (char* key, void* value) {
         count++;
         return Continue;
-    }
+    }));
 
-    BMap_iter(&map, callback);
     EQ(count, 4, "Map iteration is brokered");
 
     BMap_clean(&map);
@@ -87,7 +86,7 @@ TEST(map_struct) {
 }
 
 TEST(map_collision) {
-    autodel(BMap) map = MAKE_MAP(int, 32);
+    AUTODEL(BMap) map = MAKE_MAP(int, 32);
 
     char* key1 = "altarages";
     char* key2 = "zinkes";
