@@ -13,7 +13,7 @@
     _function; \
 })
 
-#define LET __auto_type
+#define AUTO __auto_type
 
 #define MAKE(type, ...) ({ \
     type tmp; \

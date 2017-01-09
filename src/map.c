@@ -80,7 +80,7 @@ void BMap_put(BMap* map, char* key, void* value) {
 
     BMapPair** cur_pair = &pair;
     while (strcmp((*cur_pair)->key, key) != 0) {
-        cur_pair = &pair->next;
+        cur_pair = &(*cur_pair)->next;
 
         if (*cur_pair == NULL) {
             *cur_pair = malloc(map->pair_size);
@@ -119,6 +119,7 @@ void BMap_iter(BMap* map, BMapIter func) {
 
 u64 hash_fnv1a(char* str) {
     u64 hash = FNV_OFFSET_BASIS;
+
     for (u64 i = 0; i < strlen(str); i++) {
         hash ^= str[i];
         hash *= FNV_PRIME;

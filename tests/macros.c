@@ -8,14 +8,14 @@
 #include "bass/types.h"
 
 TEST(macro_let) {
-    LET x = 42;
+    AUTO x = 42;
 
     EQ(x, 42, "x was not properly set");
     PASS;
 }
 
 TEST(macro_lambda) {
-    LET f = LAMBDA(i32, (i32 x) {
+    AUTO f = LAMBDA(i32, (i32 x) {
         return x * x;
     });
 

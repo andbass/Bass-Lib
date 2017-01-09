@@ -37,8 +37,8 @@ TEST(map_iterate) {
 
     BMap_put(&map, "x", (int[]) { 1 });
     BMap_put(&map, "data", (int[]) { 10 });
-    BMap_put(&map, "LONG STRING WITH SPACES", (int[]) { 128 });
-    BMap_put(&map, "xXx_los_angelos_xXx", (int[]) { 42 });
+    BMap_put(&map, "LONG", (int[]) { 128 });
+    BMap_put(&map, "fuck", (int[]) { 128 });
 
     int count = 0;
     BMap_iter(&map, LAMBDA(BMapIterCode, (char* key, void* value) {
